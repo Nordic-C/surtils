@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include "vec.h"
-#include "../../utils/utils.h"
+#include "../util/utils.h"
 
 typedef struct vec {
     int *data;

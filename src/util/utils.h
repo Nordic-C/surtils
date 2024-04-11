@@ -17,16 +17,6 @@
 
 #define STRINGIFY(x) #x
 
-#define THROW_ERROR(msg, ...) { \
-    fprintf(stderr, msg, __VA_ARGS__); \
-    exit(1);        \
-}
-
-#define THROW_ERROR(msg) { \
-    fprintf(stderr, msg); \
-    exit(1);        \
-}
-
 void printStackTrace();
 
 void processRootDir();

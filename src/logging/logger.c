@@ -4,6 +4,7 @@
 
 #include "logger.h"
 #include <stdarg.h>
+#include "../util/utils.h"
 
 void logMsg(LogLevel level, const char *format, ...) {
     switch (level) {
