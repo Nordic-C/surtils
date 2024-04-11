@@ -1,7 +1,3 @@
-//
-// Created by thepigcat on 2/27/24.
-//
-
 #pragma once
 
 #include <stdlib.h>

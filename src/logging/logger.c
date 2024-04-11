@@ -1,7 +1,3 @@
-//
-// Created by thepigcat on 2/27/24.
-//
-
 #include "logger.h"
 #include <stdarg.h>
 #include "../util/utils.h"

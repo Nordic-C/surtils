@@ -1,7 +1,3 @@
-//
-// Created by thepigcat on 2/27/24.
-//
-
 #include "utils.h"
 #include <execinfo.h>
 #include <stdio.h>

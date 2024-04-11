@@ -1,7 +1,3 @@
-//
-// Created by thepigcat on 2/26/24.
-//
-
 #include <stdio.h>
 #include "vec.h"
 #include "../util/utils.h"

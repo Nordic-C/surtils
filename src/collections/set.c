@@ -1,7 +1,3 @@
-//
-// Created by thepigcat on 2/28/24.
-//
-
 #include <malloc.h>
 #include <stdlib.h>
 #include "set.h"
