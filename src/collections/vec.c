@@ -2,7 +2,7 @@
 #include "vec.h"
 #include "../util/utils.h"
 
-typedef struct vec {
+typedef struct _ {
     int *data;
     size_t length;
     size_t capacity;

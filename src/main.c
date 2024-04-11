@@ -1,12 +1,11 @@
 #include "collections/set.h"
+#include "collections/vec.h"
 #include <unistd.h>
 
 int main(void) {
-  Set *mySet = newSet();
-  set_add(mySet, 10);
-  set_add(mySet, 230);
-  set_add(mySet, 130);
-  set_add(mySet, 140);
-  set_print(mySet);
-  return 0;
+  Vec *myVec = newVec();
+  for (int i = 0; i < 100; i++) {
+    vec_push(myVec, i * 69);
+  }
+  vec_print(myVec);
 }

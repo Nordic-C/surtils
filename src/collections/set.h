@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "stdlib.h"
 
-typedef struct set Set;
+typedef struct _ Set;
 
 Set *newSet();
 
