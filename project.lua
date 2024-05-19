@@ -11,5 +11,5 @@ Props = {
 
 -- external dependenciess
 Dependencies = {
-    -- { "https://github.com/Surtur-Team/surtests", 0xFFFF }
+    { "https://github.com/Surtur-Team/surtests", 0.1 }
 }
