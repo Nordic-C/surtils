@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "set.h"
 
-typedef struct _ {
+typedef struct set {
     size_t length;
     int *data;
 } Set;

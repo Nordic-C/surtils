@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-typedef struct _ Vec;
+typedef struct vec Vec;
 
 Vec *newVec();
 
