@@ -1,11 +1,19 @@
-#include "collections/set.h"
-#include "collections/vec.h"
+#include <stdio.h>
 #include <unistd.h>
+#include "collections/vec.h"
+
+#define STRINGIFY(expr) #expr
+
+#define TYPENAME(expr) STRINGIFY(typeof(z))
 
 int main(void) {
-  Vec *myVec = newVec();
-  for (int i = 0; i < 100; i++) {
-    vec_push(myVec, i * 69);
+  Vec *my_vec = new_vec();
+
+  vec_push(my_vec, "deez nuts");
+  vec_push(my_vec, "ballz");
+  vec_push(my_vec, "say gex");
+
+  for (int i = 0; i < vec_length(my_vec); i++) {
+    printf("%s\n", (char *)vec_get(my_vec, i));
   }
-  vec_print(myVec);
 }
