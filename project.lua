@@ -3,11 +3,9 @@ Name = "surtils"
 Props = {
     std = "c17",
     version = "0.1",
-    type = "bin",
+    type = "lib",
     compiler = "gcc",
 }
-
--- C files that should not be compiled manually (don't have a header)
 
 -- external dependenciess
 Dependencies = {

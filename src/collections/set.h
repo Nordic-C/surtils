@@ -5,7 +5,7 @@
 
 typedef struct set Set;
 
-Set *newSet();
+Set *new_set();
 
 bool set_add(Set *set, int val);
 

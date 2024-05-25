@@ -7,7 +7,7 @@ typedef struct set {
     int *data;
 } Set;
 
-Set *newSet() {
+Set *new_set() {
     Set *set = (Set *) malloc(sizeof(Set));
     set->length = 0;
     set->data = NULL;
