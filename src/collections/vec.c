@@ -1,13 +1,13 @@
+#include "vec.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "vec.h"
 
 #define INITIAL_CAPACITY 4
 
 typedef struct vec {
-    void **data;
-    size_t length;
-    size_t capacity;
+  void **data;
+  size_t length;
+  size_t capacity;
 } Vec;
 
 // Function to create a new vector
@@ -59,5 +59,33 @@ void vec_set(Vec *vec, size_t index, void *item) {
 
 // Function to get the current size of the vector
 size_t vec_length(const Vec *vec) { return vec->length; }
+
+void *vec_remove(Vec *vec, size_t index) {
+  if (index >= vec->length) {
+    fprintf(stderr, "Index out of bounds\n");
+    return NULL;
+  }
+
+  void *popped_element = vec->data[index];
+
+  for (size_t i = index; i < vec->length - 1; ++i) {
+    vec->data[i] = vec->data[i + 1];
+  }
+
+  vec->length--;
+
+  if (vec->length < vec->capacity / 2) {
+    vec->capacity /= 2;
+    vec->data = (void **)realloc(vec->data, vec->capacity * sizeof(void *));
+    if (vec->data == NULL) {
+      fprintf(stderr, "Memory reallocation failed\n");
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  return popped_element;
+}
+
+void *vec_pop(Vec *vec) { return vec_remove(vec, vec->length - 1); }
 
 // Function to resize the vector
