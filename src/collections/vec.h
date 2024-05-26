@@ -2,20 +2,32 @@
 
 #include <stddef.h>
 
-typedef struct vec Vec;
+#define VEC_FROM(name, ...)                                                    \
+  vec_t *name = new_vec();                                                     \
+  void *values[] = {__VA_ARGS__};                                              \
+  size_t count = sizeof(values) / sizeof(values[0]);                           \
+  for (size_t i = 0; i < count; ++i) {                                         \
+    vec_push(name, values[i]);                                                 \
+  }
 
-Vec *new_vec();
+typedef struct {
+  void **data;
+  size_t length;
+  size_t capacity;
+} vec_t;
 
-void vec_push(Vec *vec, void *value);
+vec_t *new_vec();
 
-void *vec_remove(Vec *vec, size_t index);
+void vec_push(vec_t *vec, void *value);
 
-void *vec_pop(Vec *vec);
+void *vec_remove(vec_t *vec, size_t index);
 
-void vec_set(Vec *vec, size_t index, void *value);
+void *vec_pop(vec_t *vec);
 
-void *vec_get(const Vec *vec, size_t index);
+void vec_set(vec_t *vec, size_t index, void *value);
 
-void vec_free(Vec *vec);
+void *vec_get(const vec_t *vec, size_t index);
 
-size_t vec_length(const Vec *vec);
+void vec_free(vec_t *vec);
+
+size_t vec_length(const vec_t *vec);

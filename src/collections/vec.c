@@ -4,22 +4,16 @@
 
 #define INITIAL_CAPACITY 4
 
-typedef struct vec {
-  void **data;
-  size_t length;
-  size_t capacity;
-} Vec;
-
 // Function to create a new vector
-Vec *new_vec() {
-  Vec *vec = (Vec *)malloc(sizeof(Vec));
+vec_t *new_vec() {
+  vec_t *vec = (vec_t *)malloc(sizeof(vec_t));
   vec->data = (void **)malloc(sizeof(void *) * INITIAL_CAPACITY);
   vec->capacity = INITIAL_CAPACITY;
   vec->length = 0;
   return vec;
 }
 
-static void vec_resize(Vec *vec, int capacity) {
+static void vec_resize(vec_t *vec, int capacity) {
   void **items = (void **)realloc(vec->data, sizeof(void *) * capacity);
   if (items) {
     vec->data = items;
@@ -28,13 +22,13 @@ static void vec_resize(Vec *vec, int capacity) {
 }
 
 // Function to free the memory used by the vector
-void vec_free(Vec *vec) {
+void vec_free(vec_t *vec) {
   free(vec->data);
   free(vec);
 }
 
 // Function to add an item to the vector
-void vec_push(Vec *vec, void *item) {
+void vec_push(vec_t *vec, void *item) {
   if (vec->length == vec->capacity) {
     vec_resize(vec, vec->capacity * 2);
   }
@@ -42,7 +36,7 @@ void vec_push(Vec *vec, void *item) {
 }
 
 // Function to get an item from the vector at a specific index
-void *vec_get(const Vec *vec, size_t index) {
+void *vec_get(const vec_t *vec, size_t index) {
   if (index < 0 || index >= vec->length) {
     return NULL; // or handle error appropriately
   }
@@ -50,7 +44,7 @@ void *vec_get(const Vec *vec, size_t index) {
 }
 
 // Function to set an item in the vector at a specific index
-void vec_set(Vec *vec, size_t index, void *item) {
+void vec_set(vec_t *vec, size_t index, void *item) {
   if (index < 0 || index >= vec->length) {
     return; // or handle error appropriately
   }
@@ -58,9 +52,9 @@ void vec_set(Vec *vec, size_t index, void *item) {
 }
 
 // Function to get the current size of the vector
-size_t vec_length(const Vec *vec) { return vec->length; }
+size_t vec_length(const vec_t *vec) { return vec->length; }
 
-void *vec_remove(Vec *vec, size_t index) {
+void *vec_remove(vec_t *vec, size_t index) {
   if (index >= vec->length) {
     fprintf(stderr, "Index out of bounds\n");
     return NULL;
@@ -86,6 +80,6 @@ void *vec_remove(Vec *vec, size_t index) {
   return popped_element;
 }
 
-void *vec_pop(Vec *vec) { return vec_remove(vec, vec->length - 1); }
+void *vec_pop(vec_t *vec) { return vec_remove(vec, vec->length - 1); }
 
 // Function to resize the vector

@@ -1,55 +1,18 @@
 #include <malloc.h>
 #include <stdlib.h>
+
 #include "set.h"
 
-typedef struct set {
-    size_t length;
-    int *data;
-} Set;
-
-Set *new_set() {
-    Set *set = (Set *) malloc(sizeof(Set));
-    set->length = 0;
-    set->data = NULL;
-    return set;
+hashset_t *new_hashset() {
+    
 }
 
-bool set_add(Set *set, int val) {
-    for (int i = 0; i < set->length; ++i) {
-        if (set->data[i] == val) {
-            return false;
-        }
-    }
+bool hashset_insert(hashset_t *set, void *value);
 
-    set->length++;
-    set->data = (int *) realloc(set->data, set->length * sizeof(int));
-    if (set->data == NULL) {
-        fprintf(stderr, "Memory reallocation failed\n");
-        exit(EXIT_FAILURE);
-    }
-    set->data[set->length - 1] = val;
+bool hashset_remove(hashset_t *set, size_t index);
 
-    return true;
-}
+bool hashset_contains(const hashset_t *set, void *value);
 
-void set_remove(Set *set, size_t index) {
+void hashset_free(hashset_t *set);
 
-}
-
-void set_print(const Set *set) {
-    printf("Set: ");
-    for (size_t i = 0; i < set->length; ++i) {
-        printf("%d ", set->data[i]);
-    }
-    printf("\n");
-}
-
-void set_free(Set *set) {
-    free(set->data);
-    set->length = 0;
-    free(set);
-}
-
-size_t set_length(Set *set) {
-    return set->length;
-}
+size_t hashset_length(const hashset_t *set);
