@@ -2,13 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define INITIAL_CAPACITY 4
-
 // Function to create a new vector
 vec_t *new_vec() {
   vec_t *vec = (vec_t *)malloc(sizeof(vec_t));
-  vec->data = (void **)malloc(sizeof(void *) * INITIAL_CAPACITY);
-  vec->capacity = INITIAL_CAPACITY;
+  // TODO: Might want to use calloc for this
+  vec->data = (void **)malloc(sizeof(void *));
+  vec->capacity = 1;
+  vec->length = 0;
+  return vec;
+}
+
+vec_t *new_vec_with_size(size_t initial_size) {
+  vec_t *vec = (vec_t *)malloc(sizeof(vec_t));
+  vec->data = (void **)malloc(sizeof(void *) * initial_size);
+  vec->capacity = initial_size;
   vec->length = 0;
   return vec;
 }
@@ -37,7 +44,7 @@ void vec_push(vec_t *vec, void *item) {
 
 // Function to get an item from the vector at a specific index
 void *vec_get(const vec_t *vec, size_t index) {
-  if (index < 0 || index >= vec->length) {
+  if (index >= vec->length) {
     return NULL; // or handle error appropriately
   }
   return vec->data[index];
@@ -45,7 +52,7 @@ void *vec_get(const vec_t *vec, size_t index) {
 
 // Function to set an item in the vector at a specific index
 void vec_set(vec_t *vec, size_t index, void *item) {
-  if (index < 0 || index >= vec->length) {
+  if (index >= vec->length) {
     return; // or handle error appropriately
   }
   vec->data[index] = item;

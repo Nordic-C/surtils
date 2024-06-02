@@ -1,4 +1,5 @@
 #include "collections/vec.h"
+#include "strings/dyn_string.h"
 #include "surtests/src/tests.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -24,7 +25,7 @@ int main(void) {
     printf("Popped element: %s\n", elem);
   });
 
-  //TEST(test_vector_macro, {
+  TEST(test_vector_macro, {
     int x = 100;
     int y = 200;
     int z = 300;
@@ -33,5 +34,11 @@ int main(void) {
     for (int i = 0; i < vec_length(my_vec); i++) {
       printf("%d\n", *(int *)vec_get(my_vec, i));
     }
-  //});
+  });
+
+  TEST(test_dyn_string, {
+    char *literal = "Hello, World";
+    dyn_string_t *my_str = new_dyn_string_from_slice(literal);
+    printf("Da string: %s\n", dyn_string_as_slice(my_str));
+  });
 }

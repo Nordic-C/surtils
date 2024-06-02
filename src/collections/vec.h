@@ -2,12 +2,12 @@
 
 #include <stddef.h>
 
-#define VEC_FROM(name, ...)                                                    \
-  vec_t *name = new_vec();                                                     \
+#define VEC_FROM(vec_name, ...)                                                    \
+  vec_t *vec_name = new_vec();                                                     \
   void *values[] = {__VA_ARGS__};                                              \
   size_t count = sizeof(values) / sizeof(values[0]);                           \
   for (size_t i = 0; i < count; ++i) {                                         \
-    vec_push(name, values[i]);                                                 \
+    vec_push(vec_name, values[i]);                                                 \
   }
 
 typedef struct {
@@ -17,6 +17,8 @@ typedef struct {
 } vec_t;
 
 vec_t *new_vec();
+
+vec_t *new_vec_with_size(size_t initial_size);
 
 void vec_push(vec_t *vec, void *value);
 
