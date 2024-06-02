@@ -1,3 +1,5 @@
+#include "../lib.h"
+
 #pragma once
 
 typedef enum {
@@ -7,7 +9,7 @@ typedef enum {
 
 typedef union {
   void *some;
-  void *none;
+  null_t none;
 } InnerOption;
 
 typedef struct {
