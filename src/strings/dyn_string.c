@@ -71,3 +71,9 @@ void dyn_string_push_multiple(dyn_string_t *string, char *chars) {
 char *dyn_string_as_slice(dyn_string_t *string) {
   return string->data;
 }
+
+void dyn_string_free(dyn_string_t *string) {
+  free(string->data);
+  free(string);
+  string = NULL;
+}

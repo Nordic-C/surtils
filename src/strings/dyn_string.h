@@ -22,3 +22,5 @@ void dyn_string_push_single(dyn_string_t *string, char ch);
 void dyn_string_push_multiple(dyn_string_t *string, char *chars);
 
 char *dyn_string_as_slice(dyn_string_t *string);
+
+void dyn_string_free(dyn_string_t *string);
