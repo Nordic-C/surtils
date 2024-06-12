@@ -23,9 +23,9 @@ static dyn_string_t *new_string_with_size(size_t initial_size) {
 
 dyn_string_t *new_dyn_string_from_slice(char *literal) {
   size_t str_len = strlen(literal);
-  dyn_string_t *string;
-  string = new_string_with_size(str_len);
-  dyn_string_push_multiple(string, literal);
+  dyn_string_t *string = new_string_with_size(str_len);
+  strcpy(string->data, literal);
+  string->length += str_len;
   return string;
 }
 
@@ -63,9 +63,10 @@ void dyn_string_push_single(dyn_string_t *string, char ch) {
 }
 
 void dyn_string_push_multiple(dyn_string_t *string, char *chars) {
-  for (int i = 0; i < strlen(chars); i++) {
-    string_push(string, chars[i]);
-  }
+  size_t len = strlen(chars);
+  string_resize(string, dyn_string_length(string) + len);
+  strcpy(string->data, chars);
+  string->length += len;
 }
 
 char *dyn_string_as_slice(dyn_string_t *string) {

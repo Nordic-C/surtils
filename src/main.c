@@ -2,6 +2,7 @@
 #include "strings/dyn_string.h"
 #include "surtests/src/tests.h"
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 int main(void) {
@@ -32,9 +33,13 @@ int main(void) {
     }
   });
 
-  TEST(test_dyn_string, {
-    char *literal = "Hello, World";
-    dyn_string_t *my_str = new_dyn_string_from_slice(literal);
-    printf("Da string: %s\n", dyn_string_as_slice(my_str));
-  });
+  // TEST(test_dyn_string, {
+  char *literal = "Hello, World";
+  dyn_string_t *my_str = new_dyn_string_from_slice(literal);
+  printf("Da string: %s\n", my_str->data);
+  dyn_string_t *new_str = new_dyn_string_from_slice(dyn_string_as_slice(my_str));
+  printf("Da new string: %s\n", new_str->data);
+  dyn_string_free(my_str);
+  dyn_string_free(new_str);
+  //});
 }
