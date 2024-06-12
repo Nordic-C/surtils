@@ -65,8 +65,9 @@ void dyn_string_push_single(dyn_string_t *string, char ch) {
 void dyn_string_push_multiple(dyn_string_t *string, char *chars) {
   size_t len = strlen(chars);
   string_resize(string, dyn_string_length(string) + len);
-  strcpy(string->data, chars);
-  string->length += len;
+  for (int i = 0; i < len; i++) {
+    string_push(string, chars[i]);
+  }
 }
 
 char *dyn_string_as_slice(dyn_string_t *string) {
