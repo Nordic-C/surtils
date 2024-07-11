@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 // Function to create a new vector
-vec_t *new_vec() {
+vec_t *vec_new() {
   vec_t *vec = (vec_t *)malloc(sizeof(vec_t));
   // TODO: Might want to use calloc for this
   vec->data = (void **)malloc(sizeof(void *));
@@ -12,7 +12,7 @@ vec_t *new_vec() {
   return vec;
 }
 
-vec_t *new_vec_with_size(size_t initial_size) {
+vec_t *vec_new_with_size(size_t initial_size) {
   vec_t *vec = (vec_t *)malloc(sizeof(vec_t));
   vec->data = (void **)malloc(sizeof(void *) * initial_size);
   vec->capacity = initial_size;
@@ -28,6 +28,14 @@ static void vec_resize(vec_t *vec, int capacity) {
   }
 }
 
+// This function assumes that there is enough room to push the elements back.
+static void vec_push_elements_back(vec_t *vec, size_t offset) {
+  for (size_t i = vec->length; i > 0; i--) {
+    void *elem = vec->data[i-1];
+    vec->data[i - 1 + offset] = elem;
+  }
+}
+
 // Function to free the memory used by the vector
 void vec_free(vec_t *vec) {
   free(vec->data);
@@ -35,11 +43,20 @@ void vec_free(vec_t *vec) {
 }
 
 // Function to add an item to the vector
-void vec_push(vec_t *vec, void *item) {
+void vec_push_back(vec_t *vec, void *item) {
   if (vec->length == vec->capacity) {
     vec_resize(vec, vec->capacity * 2);
   }
   vec->data[vec->length++] = item;
+}
+
+void vec_push_front(vec_t *vec, void *item) {
+  if (vec->length == vec->capacity) {
+    vec_resize(vec, vec->capacity * 2);
+  }
+  vec_push_elements_back(vec, 1);
+  vec->data[0] = item;
+  vec->length++;
 }
 
 // Function to get an item from the vector at a specific index
@@ -88,5 +105,3 @@ void *vec_remove(vec_t *vec, size_t index) {
 }
 
 void *vec_pop(vec_t *vec) { return vec_remove(vec, vec->length - 1); }
-
-// Function to resize the vector

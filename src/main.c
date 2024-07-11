@@ -7,11 +7,11 @@
 
 int main(void) {
   TEST(test_vectors, {
-    vec_t *my_vec = new_vec();
+    vec_t *my_vec = vec_new();
 
-    vec_push(my_vec, "Hello");
-    vec_push(my_vec, "World");
-    vec_push(my_vec, "its me");
+    vec_push_back(my_vec, "Hello");
+    vec_push_back(my_vec, "World");
+    vec_push_back(my_vec, "its me");
     vec_remove(my_vec, 1);
     char *elem = vec_pop(my_vec);
 
@@ -21,6 +21,30 @@ int main(void) {
 
     printf("Popped element: %s\n", elem);
   });
+
+  TEST(test_vec_push_front, {
+    int x = 100;
+    int y = 200;
+    int z = 300;
+    int w = 400;
+
+    vec_t *my_vec = vec_new();
+
+    vec_push_back(my_vec, &x);
+    vec_push_back(my_vec, &w);
+
+    for (size_t i = 0; i < my_vec->length; i++) {
+      printf("val at pos %zu: %d\n", i, *(int *)vec_get(my_vec, i));
+    }
+
+    vec_push_front(my_vec, &y);
+
+    for (size_t i = 0; i < my_vec->length; i++) {
+      printf("val at pos %zu: %d\n", i, *(int *)vec_get(my_vec, i));
+    }
+
+    vec_free(my_vec);
+  })
 
   TEST(test_vector_macro, {
     int x = 100;
@@ -33,13 +57,26 @@ int main(void) {
     }
   });
 
-  // TEST(test_dyn_string, {
-  char *literal = "Hello, World";
-  dyn_string_t *my_str = new_dyn_string_from_slice(literal);
-  printf("Da string: %s\n", my_str->data);
-  dyn_string_t *new_str = new_dyn_string_from_slice(dyn_string_as_slice(my_str));
-  printf("Da new string: %s\n", new_str->data);
-  dyn_string_free(my_str);
-  dyn_string_free(new_str);
-  //});
+  TEST(test_dyn_string, {
+    char *literal = "Hello, World.";
+    dyn_string_t *my_str = new_dyn_string_from_slice(literal);
+    char *new_literal = " I am the cool neighbor :>";
+    dyn_string_push_multiple_back(my_str, new_literal);
+    char string[dyn_string_length(my_str)];
+    strcpy(string, my_str->data);
+    puts(string);
+    dyn_string_free(my_str);
+  });
+
+  TEST(test_dyn_string_push_front, {
+    dyn_string_t *my_str = new_dyn_string();
+    dyn_string_push_single_back(my_str, 'H');
+    dyn_string_push_single_back(my_str, 'e');
+    dyn_string_push_single_back(my_str, 'l');
+    dyn_string_push_single_back(my_str, 'l');
+    dyn_string_push_single_back(my_str, 'o');
+    dyn_string_push_multiple_front(my_str, "World ");
+    char *str = dyn_string_as_slice(my_str);
+    printf("%s\n", str);
+  });
 }

@@ -5,9 +5,9 @@
 #define VEC_FROM(vec_name, ...)                                                \
   void *values[] = {__VA_ARGS__};                                              \
   size_t count = sizeof(values) / sizeof(values[0]);                           \
-  vec_t *vec_name = new_vec_with_size(count);                                                 \
+  vec_t *vec_name = vec_new_with_size(count);                                                 \
   for (size_t i = 0; i < count; ++i) {                                         \
-    vec_push(vec_name, values[i]);                                             \
+    vec_push_back(vec_name, values[i]);                                             \
   }
 
 typedef struct {
@@ -16,11 +16,13 @@ typedef struct {
   size_t capacity;
 } vec_t;
 
-vec_t *new_vec();
+vec_t *vec_new();
 
-vec_t *new_vec_with_size(size_t initial_size);
+vec_t *vec_new_with_size(size_t initial_size);
 
-void vec_push(vec_t *vec, void *value);
+void vec_push_back(vec_t *vec, void *value);
+
+void vec_push_front(vec_t *vect, void *value);
 
 void *vec_remove(vec_t *vec, size_t index);
 
