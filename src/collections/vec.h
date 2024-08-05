@@ -3,11 +3,12 @@
 #include <stddef.h>
 
 #define VEC_FROM(vec_name, ...)                                                \
-  void *values[] = {__VA_ARGS__};                                              \
-  size_t count = sizeof(values) / sizeof(values[0]);                           \
-  vec_t *vec_name = vec_new_with_size(count);                                                 \
-  for (size_t i = 0; i < count; ++i) {                                         \
-    vec_push_back(vec_name, values[i]);                                             \
+  void *values_##vec_name[] = {__VA_ARGS__};                                   \
+  size_t count_##vec_name =                                                    \
+      sizeof(values_##vec_name) / sizeof(values_##vec_name[0]);                \
+  vec_t *vec_name = vec_new_with_size(count_##vec_name);                       \
+  for (size_t i = 0; i < count_##vec_name; ++i) {                              \
+    vec_push_back(vec_name, values_##vec_name[i]);                             \
   }
 
 typedef struct {

@@ -4,7 +4,7 @@
 #include "set.h"
 
 hashset_t *new_hashset() {
-    
+    return NULL;
 }
 
 bool hashset_insert(hashset_t *set, void *value);

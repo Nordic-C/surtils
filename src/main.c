@@ -1,11 +1,22 @@
-#include "collections/vec.h"
-#include "strings/dyn_string.h"
+#include "generics/vec.h"
 #include "surtests/src/tests.h"
 #include <stdio.h>
-#include <string.h>
 #include <unistd.h>
 
+typedef char *string_t;
+
+DEFINE_VEC(char)
+DEFINE_VEC(string_t)
+
 int main(void) {
+  vec_gt(string_t) *test = vec_new(string_t);
+
+  vec_push_back(string_t, test, "ABC");
+
+  string_t x = vec_get(string_t, test, 0);
+
+  printf("%s\n", x);
+  /*
   TEST(test_vectors, {
     vec_t *my_vec = vec_new();
 
@@ -79,4 +90,5 @@ int main(void) {
     char *str = dyn_string_as_slice(my_str);
     printf("%s\n", str);
   });
+  */
 }
