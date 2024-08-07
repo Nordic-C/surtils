@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define vec_gt(type) struct vec_##type##_t
+#define vec_gt(type) vec_##type##_t
 
 #define vec_new(type) vec_##type##_new()
 
@@ -14,11 +14,11 @@
 #define vec_push_front(type, vec, elem) vec_##type##_push_front(vec, elem)
 
 // clang-format off
-#define DEFINE_VEC(type) struct vec_##type##_t {                                 \
+#define DEFINE_VEC(type) typedef struct {                                 \
     type *data;                                                                \
     size_t length;                                                             \
     size_t capacity;                                                           \
-  };                                                                           \
+  } vec_##type##_t;                                                                           \
                                                                                \
   vec_gt(type) *vec_##type##_new() {                                             \
     vec_gt(type) *vec = (vec_gt(type) *)malloc(sizeof(vec_gt(type)));          \
