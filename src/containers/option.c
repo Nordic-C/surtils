@@ -2,22 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Option some(void *val) {
-  Option opt = {.type = SOME, .option = val};
-  return opt;
-}
+Option some(void *val) { return (Option){.type = SOME, .option = val}; }
 
-Option none() {
-  Option opt = {.type = NONE, .option = NULL};
-  return opt;
-}
+Option none() { return (Option){.type = NONE, .option = NULL}; }
 
 void *unwrap(Option *option) {
   if (option->type != SOME) {
     fprintf(stderr, "Attempt to unwrap an Option even though it is NONE\n");
     exit(1);
   }
-  return option->option.some;
+  return option->option;
 }
 
 void *expect(Option *option, char *msg) {
@@ -25,13 +19,9 @@ void *expect(Option *option, char *msg) {
     fprintf(stderr, "%s\n", msg);
     exit(1);
   }
-  return option->option.some;
+  return option->option;
 }
 
-int is_some(Option *option) {
-    return option->type == SOME;
-}
+int is_some(Option *option) { return option->type == SOME; }
 
-int is_none(Option *option) {
-    return !is_some(option);
-}
+int is_none(Option *option) { return !is_some(option); }

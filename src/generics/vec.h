@@ -7,7 +7,7 @@
 
 #define vec_new(type) vec_##type##_new()
 
-#define vec_new_sized(type, size) vec_##type##_with_size(size)
+#define vec_new_sized(type, size) vec_##type##_new_with_size(size)
 
 #define vec_get(type, vec, index) vec_##type##_get(vec, index)
 
@@ -16,11 +16,7 @@
 #define vec_push_front(type, vec, elem) vec_##type##_push_front(vec, elem)
 
 // clang-format off
-#define DEFINE_VEC(type) typedef struct {                                 \
-    type *data;                                                                \
-    size_t length;                                                             \
-    size_t capacity;                                                           \
-  } vec_##type##_t;                                                                           \
+#define DEFINE_VEC(type) \
                                                                                \
   vec_gt(type) *vec_##type##_new() {                                             \
     vec_gt(type) *vec = (vec_gt(type) *)malloc(sizeof(vec_gt(type)));          \
@@ -126,3 +122,35 @@
   type vec_##type##_pop(vec_gt(type) *vec) {                                    \
     return vec_##type##_remove(vec, vec->length - 1);                            \
   }                                                                            
+
+// clang-format off
+#define DEFINE_VEC_EXPORTS(type) typedef struct {                              \
+    type *data;                                                                \
+    size_t length;                                                             \
+    size_t capacity;                                                           \
+  } vec_##type##_t;                                                            \
+                                                                               \
+  vec_gt(type) *vec_##type##_new();                                            \
+                                                                               \
+  vec_gt(type) *vec_##type##_new_with_size(size_t initial_size);               \
+                                                                               \
+  /* Function to free the memory used by the vector*/                          \
+  void vec_##type##_free(vec_gt(type) * vec);                                  \
+                                                                               \
+  /* Function to add an item to the vector*/                                   \
+  void vec_##type##_push_back(vec_gt(type) * vec, type item);                  \
+                                                                               \
+  void vec_##type##_push_front(vec_gt(type) *vec, type item);                  \
+                                                                               \
+  /* Function to get an item from the vector at a specific index*/             \
+  type vec_##type##_get(const vec_gt(type) *vec, size_t index);                \
+                                                                               \
+  /* Function to set an item in the vector at a specific index*/               \
+  void vec_##type##_set(vec_gt(type) *vec, size_t index, type item);           \
+                                                                               \
+  /* Function to get the current size of the vector*/                          \
+  size_t vec_##type##_length(const vec_gt(type) *vec);                         \
+                                                                               \
+  type vec_##type##_remove(vec_gt(type) *vec, size_t index);                   \
+                                                                               \
+  type vec_##type##_pop(vec_gt(type) *vec);                                                                    

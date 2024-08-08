@@ -7,14 +7,9 @@ typedef enum {
   NONE,
 } OptionType;
 
-typedef union {
-  void *some;
-  null_t none;
-} InnerOption;
-
 typedef struct {
   OptionType type;
-  InnerOption option;
+  void *option;
 } Option;
 
 Option some(void *val);

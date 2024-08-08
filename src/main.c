@@ -2,20 +2,13 @@
 #include "surtests/src/tests.h"
 #include <stdio.h>
 #include <unistd.h>
-
-typedef char *string_t;
-
-DEFINE_VEC(char)
-DEFINE_VEC(string_t)
+#include "lib.h"
 
 int main(void) {
-  vec_gt(string_t) *test = vec_new(string_t);
+  vec_gt(int) *s = get_s();
 
-  vec_push_back(string_t, test, "ABC");
+  printf("Capacity: %zu\n", s->capacity);
 
-  string_t x = vec_get(string_t, test, 0);
-
-  printf("%s\n", x);
   /*
   TEST(test_vectors, {
     vec_t *my_vec = vec_new();
