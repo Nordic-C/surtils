@@ -1,5 +1,3 @@
-#include "../lib.h"
-
 #pragma once
 
 typedef enum {
@@ -20,6 +18,6 @@ void *unwrap(Option *option);
 
 void *expect(Option *option, char *msg);
 
-int is_some(Option *option);
+int is_some(const Option *option);
 
-int is_none(Option *option);
+int is_none(const Option *option);

@@ -1,13 +1,36 @@
-#include "generics/vec.h"
+#include "generics/set.h"
 #include "surtests/src/tests.h"
+#include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
-#include "lib.h"
+
+typedef char *string_t;
+
+DEFINE_SET_EXPORTS(string_t);
+
+DEFINE_SET(string_t);
+
+bool str_cmp(const string_t* a, const string_t* b) {
+  return strcmp(*a, *b) == 0;
+} 
 
 int main(void) {
-  vec_gt(int) *s = get_s();
+  set_gt(string_t) *set = set_new(string_t);
 
-  printf("Capacity: %zu\n", s->capacity);
+  set_insert(string_t, set, "aefg");
+  set_insert(string_t, set, "gefg");
+  set_insert(string_t, set, "Defg");
+  set_insert(string_t, set, "Abc");
+  set_insert(string_t, set, "Abce");
+
+  size_t index = set_indexof_cmp(string_t, set, "Defg", str_cmp);
+
+  printf("index: %zu\n", index);
+
+  for (size_t i = 0; i < set->length; i++) {
+    printf("%s\n", set_get(string_t, set, i));
+  }
 
   /*
   TEST(test_vectors, {

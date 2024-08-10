@@ -22,6 +22,6 @@ void *expect(Option *option, char *msg) {
   return option->option;
 }
 
-int is_some(Option *option) { return option->type == SOME; }
+int is_some(const Option *option) { return option->type == SOME; }
 
-int is_none(Option *option) { return !is_some(option); }
+int is_none(const Option *option) { return !is_some(option); }

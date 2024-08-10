@@ -46,7 +46,8 @@
   }                                                                            \
                                                                                \
   /* This function assumes that there is enough room to push the elements      \
-   * back.*/                                                                   \
+   * back.                                                                     \
+   */                                                                          \
   static void vec_##type##_push_elements_back(vec_gt(type) *vec,               \
                                             size_t offset) {                   \
     for (size_t i = vec->length; i > 0; i--) {                                 \
@@ -55,20 +56,20 @@
     }                                                                          \
   }                                                                            \
                                                                                \
-  /* Function to free the memory used by the vector*/                          \
+  /* Function to free the memory used by the vector */                         \
   void vec_##type##_free(vec_gt(type) * vec) {                                 \
     free(vec->data);                                                           \
     free(vec);                                                                 \
   }                                                                            \
                                                                                \
-  /* Function to add an item to the vector*/                                   \
+  /* Function to add an item to the vector */                                  \
   void vec_##type##_push_back(vec_gt(type) * vec, type item) {                 \
     if (vec->length == vec->capacity) {                                        \
       vec_##type##_resize(vec, vec->capacity * 2);                             \
     }                                                                          \
     vec->data[vec->length++] = item;                                           \
   }                                                                            \
-                                                                               \
+  /* FIXME: Might leak */                                                      \
   void vec_##type##_push_front(vec_gt(type) *vec, type item) {                 \
     if (vec->length == vec->capacity) {                                        \
       vec_##type##_resize(vec, vec->capacity * 2);                             \
@@ -78,7 +79,7 @@
     vec->length++;                                                             \
   }                                                                            \
                                                                                \
-  /* Function to get an item from the vector at a specific index*/             \
+  /* Function to get an item from the vector at a specific index */            \
   type vec_##type##_get(const vec_gt(type) *vec, size_t index) {               \
     if (index >= vec->length) {                                                \
       fprintf(stderr, "Index out of bounds\n");                                \
@@ -86,7 +87,7 @@
     return vec->data[index];                                                   \
   }                                                                            \
                                                                                \
-  /* Function to set an item in the vector at a specific index*/               \
+  /* Function to set an item in the vector at a specific index */              \
   void vec_##type##_set(vec_gt(type) *vec, size_t index, type item) {          \
     if (index >= vec->length) {                                                \
       return;                                                                  \
@@ -94,7 +95,7 @@
     vec->data[index] = item;                                                   \
   }                                                                            \
                                                                                \
-  /* Function to get the current size of the vector*/                          \
+  /* Function to get the current size of the vector */                         \
   size_t vec_##type##_length(const vec_gt(type) *vec) { return vec->length; }  \
                                                                                \
   type vec_##type##_remove(vec_gt(type) *vec, size_t index) {                  \
@@ -137,21 +138,21 @@
                                                                                \
   vec_gt(type) *vec_##type##_new_with_size(size_t initial_size);               \
                                                                                \
-  /* Function to free the memory used by the vector*/                          \
+  /* Function to free the memory used by the vector */                         \
   void vec_##type##_free(vec_gt(type) * vec);                                  \
                                                                                \
-  /* Function to add an item to the vector*/                                   \
+  /* Function to add an item to the vector */                                  \
   void vec_##type##_push_back(vec_gt(type) * vec, type item);                  \
                                                                                \
   void vec_##type##_push_front(vec_gt(type) *vec, type item);                  \
                                                                                \
-  /* Function to get an item from the vector at a specific index*/             \
+  /* Function to get an item from the vector at a specific index */            \
   type vec_##type##_get(const vec_gt(type) *vec, size_t index);                \
                                                                                \
-  /* Function to set an item in the vector at a specific index*/               \
+  /* Function to set an item in the vector at a specific index */              \
   void vec_##type##_set(vec_gt(type) *vec, size_t index, type item);           \
                                                                                \
-  /* Function to get the current size of the vector*/                          \
+  /* Function to get the current size of the vector */                         \
   size_t vec_##type##_length(const vec_gt(type) *vec);                         \
                                                                                \
   type vec_##type##_remove(vec_gt(type) *vec, size_t index);                   \
