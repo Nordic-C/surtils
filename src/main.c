@@ -11,20 +11,24 @@ DEFINE_SET_EXPORTS(string_t);
 
 DEFINE_SET(string_t);
 
-bool str_cmp(const string_t* a, const string_t* b) {
-  return strcmp(*a, *b) == 0;
-} 
+bool str_cmp(const string_t *s1, const string_t *s2) {
+  printf("Comparing: %s, %s\n", *s1, *s2);
+  return strcmp(*s1, *s2) == 0;
+}
 
 int main(void) {
-  set_gt(string_t) *set = set_new(string_t);
+  set_gt(string_t) *set = set_new_cmp(string_t, str_cmp);
+
+  char *t = "Defg";
+  char *v = "Defg";
 
   set_insert(string_t, set, "aefg");
   set_insert(string_t, set, "gefg");
-  set_insert(string_t, set, "Defg");
-  set_insert(string_t, set, "Abc");
+  set_insert(string_t, set, v);
+  set_insert(string_t, set, t);
   set_insert(string_t, set, "Abce");
 
-  size_t index = set_indexof_cmp(string_t, set, "Defg", str_cmp);
+  size_t index = set_indexof(string_t, set, "Defg");
 
   printf("index: %zu\n", index);
 
