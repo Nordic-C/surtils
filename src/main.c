@@ -1,5 +1,10 @@
+#include "collections/vec.h"
+#include "generics/iter.h"
 #include "generics/set.h"
+#include "generics/vec.h"
+#include "strings/dyn_string.h"
 #include "surtests/src/tests.h"
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -11,81 +16,42 @@ DEFINE_SET_EXPORTS(string_t);
 
 DEFINE_SET(string_t);
 
+DEFINE_VEC_EXPORTS(int);
+
+DEFINE_VEC(int);
+
 bool str_cmp(const string_t *s1, const string_t *s2) {
   printf("Comparing: %s, %s\n", *s1, *s2);
   return strcmp(*s1, *s2) == 0;
 }
 
 int main(void) {
-  set_gt(string_t) *set = set_new_cmp(string_t, str_cmp);
+  TEST(test_generic_sets, {
+    SET(string_t) set = set_new_cmp(string_t, str_cmp);
 
-  char *t = "Defg";
-  char *v = "Defg";
+    char *t = "Defg";
+    char *v = "Defg";
 
-  set_insert(string_t, set, "aefg");
-  set_insert(string_t, set, "gefg");
-  set_insert(string_t, set, v);
-  set_insert(string_t, set, t);
-  set_insert(string_t, set, "Abce");
+    set_insert(string_t, &set, "aefg");
+    set_insert(string_t, &set, "gefg");
+    set_insert(string_t, &set, v);
+    set_insert(string_t, &set, t);
+    set_insert(string_t, &set, "Abce");
 
-  size_t index = set_indexof(string_t, set, "Defg");
+    size_t index = set_indexof(string_t, &set, "Defg");
 
-  printf("index: %zu\n", index);
-
-  for (size_t i = 0; i < set->length; i++) {
-    printf("%s\n", set_get(string_t, set, i));
-  }
-
-  /*
-  TEST(test_vectors, {
-    vec_t *my_vec = vec_new();
-
-    vec_push_back(my_vec, "Hello");
-    vec_push_back(my_vec, "World");
-    vec_push_back(my_vec, "its me");
-    vec_remove(my_vec, 1);
-    char *elem = vec_pop(my_vec);
-
-    for (int i = 0; i < vec_length(my_vec); i++) {
-      printf("%s\n", (char *)vec_get(my_vec, i));
-    }
-
-    printf("Popped element: %s\n", elem);
+    FOREACH(string_t, set, elem, {
+      printf("Elem: %s\n", elem);
+    });
   });
 
-  TEST(test_vec_push_front, {
-    int x = 100;
-    int y = 200;
-    int z = 300;
-    int w = 400;
+  TEST(test_generic_vectors, {
+    VEC(int) my_vec = vec_new(int);
 
-    vec_t *my_vec = vec_new();
+    vec_push_back(int, &my_vec, 90);
+    vec_push_back(int, &my_vec, 100);
 
-    vec_push_back(my_vec, &x);
-    vec_push_back(my_vec, &w);
-
-    for (size_t i = 0; i < my_vec->length; i++) {
-      printf("val at pos %zu: %d\n", i, *(int *)vec_get(my_vec, i));
-    }
-
-    vec_push_front(my_vec, &y);
-
-    for (size_t i = 0; i < my_vec->length; i++) {
-      printf("val at pos %zu: %d\n", i, *(int *)vec_get(my_vec, i));
-    }
-
-    vec_free(my_vec);
-  })
-
-  TEST(test_vector_macro, {
-    int x = 100;
-    int y = 200;
-    int z = 300;
-    VEC_FROM(my_vec, &x, &y, &z);
-
-    for (int i = 0; i < vec_length(my_vec); i++) {
-      printf("%d\n", *(int *)vec_get(my_vec, i));
-    }
+    FOREACH(int, my_vec, elem, { printf("Elem: %d\n", elem); });
   });
 
   TEST(test_dyn_string, {
@@ -110,5 +76,4 @@ int main(void) {
     char *str = dyn_string_as_slice(my_str);
     printf("%s\n", str);
   });
-  */
 }

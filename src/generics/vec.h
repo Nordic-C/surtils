@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define vec_gt(type) vec_##type##_t
+#define VEC(type) vec_##type##_t
 
 #define vec_new(type) vec_##type##_new()
 
@@ -20,24 +20,24 @@
 // clang-format off
 #define DEFINE_VEC(type) \
                                                                                \
-  vec_gt(type) *vec_##type##_new() {                                           \
+  VEC(type) vec_##type##_new() {                                           \
     /**/                                                                       \
-    vec_gt(type) *vec = (vec_gt(type) *)malloc(sizeof(vec_gt(type)));          \
-    vec->data = (type *)malloc(sizeof(type ));                                 \
-    vec->capacity = 1;                                                         \
-    vec->length = 0;                                                           \
+    VEC(type) vec;          \
+    vec.data = (type *)malloc(sizeof(type ));                                 \
+    vec.capacity = 1;                                                         \
+    vec.length = 0;                                                           \
     return vec;                                                                \
   }                                                                            \
                                                                                \
-  vec_gt(type) *vec_##type##_new_with_size(size_t initial_size) {              \
-    vec_gt(type) *vec = (vec_gt(type) *)malloc(sizeof(vec_gt(type)));          \
-    vec->data = (type *)malloc(sizeof(type ) * initial_size);                  \
-    vec->capacity = initial_size;                                              \
-    vec->length = 0;                                                           \
+  VEC(type) vec_##type##_new_with_size(size_t initial_size) {              \
+    VEC(type) vec;          \
+    vec.data = (type *)malloc(sizeof(type) * initial_size);                  \
+    vec.capacity = initial_size;                                              \
+    vec.length = 0;                                                           \
     return vec;                                                                \
   }                                                                            \
                                                                                \
-  static void vec_##type##_resize(vec_gt(type) *vec, size_t capacity) {        \
+  static void vec_##type##_resize(VEC(type) *vec, size_t capacity) {        \
     type *items = (type *)realloc(vec->data, sizeof(type ) * capacity);        \
     if (items) {                                                               \
       vec->data = items;                                                       \
@@ -48,7 +48,7 @@
   /* This function assumes that there is enough room to push the elements      \
    * back.                                                                     \
    */                                                                          \
-  static void vec_##type##_push_elements_back(vec_gt(type) *vec,               \
+  static void vec_##type##_push_elements_back(VEC(type) *vec,               \
                                             size_t offset) {                   \
     for (size_t i = vec->length; i > 0; i--) {                                 \
       type elem = vec->data[i - 1];                                            \
@@ -57,20 +57,20 @@
   }                                                                            \
                                                                                \
   /* Function to free the memory used by the vector */                         \
-  void vec_##type##_free(vec_gt(type) * vec) {                                 \
+  void vec_##type##_free(VEC(type) * vec) {                                 \
     free(vec->data);                                                           \
     free(vec);                                                                 \
   }                                                                            \
                                                                                \
   /* Function to add an item to the vector */                                  \
-  void vec_##type##_push_back(vec_gt(type) * vec, type item) {                 \
+  void vec_##type##_push_back(VEC(type) * vec, type item) {                 \
     if (vec->length == vec->capacity) {                                        \
       vec_##type##_resize(vec, vec->capacity * 2);                             \
     }                                                                          \
     vec->data[vec->length++] = item;                                           \
   }                                                                            \
   /* FIXME: Might leak */                                                      \
-  void vec_##type##_push_front(vec_gt(type) *vec, type item) {                 \
+  void vec_##type##_push_front(VEC(type) *vec, type item) {                 \
     if (vec->length == vec->capacity) {                                        \
       vec_##type##_resize(vec, vec->capacity * 2);                             \
     }                                                                          \
@@ -80,7 +80,7 @@
   }                                                                            \
                                                                                \
   /* Function to get an item from the vector at a specific index */            \
-  type vec_##type##_get(const vec_gt(type) *vec, size_t index) {               \
+  type vec_##type##_get(const VEC(type) *vec, size_t index) {               \
     if (index >= vec->length) {                                                \
       fprintf(stderr, "Index out of bounds\n");                                \
     }                                                                          \
@@ -88,7 +88,7 @@
   }                                                                            \
                                                                                \
   /* Function to set an item in the vector at a specific index */              \
-  void vec_##type##_set(vec_gt(type) *vec, size_t index, type item) {          \
+  void vec_##type##_set(VEC(type) *vec, size_t index, type item) {          \
     if (index >= vec->length) {                                                \
       return;                                                                  \
     }                                                                          \
@@ -96,9 +96,9 @@
   }                                                                            \
                                                                                \
   /* Function to get the current size of the vector */                         \
-  size_t vec_##type##_length(const vec_gt(type) *vec) { return vec->length; }  \
+  size_t vec_##type##_length(const VEC(type) *vec) { return vec->length; }  \
                                                                                \
-  type vec_##type##_remove(vec_gt(type) *vec, size_t index) {                  \
+  type vec_##type##_remove(VEC(type) *vec, size_t index) {                  \
     if (index >= vec->length) {                                                \
       fprintf(stderr, "Index out of bounds\n");                                \
     }                                                                          \
@@ -123,7 +123,7 @@
     return popped_element;                                                     \
   }                                                                            \
                                                                                \
-  type vec_##type##_pop(vec_gt(type) *vec) {                                   \
+  type vec_##type##_pop(VEC(type) *vec) {                                   \
     return vec_##type##_remove(vec, vec->length - 1);                          \
   }
 
@@ -134,27 +134,27 @@
     size_t capacity;                                                           \
   } vec_##type##_t;                                                            \
                                                                                \
-  vec_gt(type) *vec_##type##_new();                                            \
+  VEC(type) vec_##type##_new();                                            \
                                                                                \
-  vec_gt(type) *vec_##type##_new_with_size(size_t initial_size);               \
+  VEC(type) vec_##type##_new_with_size(size_t initial_size);               \
                                                                                \
   /* Function to free the memory used by the vector */                         \
-  void vec_##type##_free(vec_gt(type) * vec);                                  \
+  void vec_##type##_free(VEC(type) * vec);                                  \
                                                                                \
   /* Function to add an item to the vector */                                  \
-  void vec_##type##_push_back(vec_gt(type) * vec, type item);                  \
+  void vec_##type##_push_back(VEC(type) * vec, type item);                  \
                                                                                \
-  void vec_##type##_push_front(vec_gt(type) *vec, type item);                  \
+  void vec_##type##_push_front(VEC(type) *vec, type item);                  \
                                                                                \
   /* Function to get an item from the vector at a specific index */            \
-  type vec_##type##_get(const vec_gt(type) *vec, size_t index);                \
+  type vec_##type##_get(const VEC(type) *vec, size_t index);                \
                                                                                \
   /* Function to set an item in the vector at a specific index */              \
-  void vec_##type##_set(vec_gt(type) *vec, size_t index, type item);           \
+  void vec_##type##_set(VEC(type) *vec, size_t index, type item);           \
                                                                                \
   /* Function to get the current size of the vector */                         \
-  size_t vec_##type##_length(const vec_gt(type) *vec);                         \
+  size_t vec_##type##_length(const VEC(type) *vec);                         \
                                                                                \
-  type vec_##type##_remove(vec_gt(type) *vec, size_t index);                   \
+  type vec_##type##_remove(VEC(type) *vec, size_t index);                   \
                                                                                \
-  type vec_##type##_pop(vec_gt(type) *vec);
+  type vec_##type##_pop(VEC(type) *vec);
