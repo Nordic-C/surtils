@@ -1,27 +1,27 @@
 #pragma once
 
-#define SET(type) set_##type##_t
+#define SET(type) __set_##type##_t
 
-#define set_new(type) set_##type##_new()
+#define set_new(type) __set_##type##_new()
 
-#define set_new_cmp(type, cmp_fn) set_##type##_new_cmp(cmp_fn)
+#define set_new_cmp(type, cmp_fn) __set_##type##_new_cmp(cmp_fn)
 
-#define set_new_sized(type, size) set_##type##_new_with_size(size)
+#define set_new_sized(type, size) __set_##type##_new_with_size(size)
 
-#define set_get(type, set, index) set_##type##_get(set, index)
+#define set_get(type, set, index) __set_##type##_get(set, index)
 
-#define set_insert(type, set, elem) set_##type##_insert(set, elem)
+#define set_insert(type, set, elem) __set_##type##_insert(set, elem)
 
-#define set_free(type, set) set_##type##_free(set)
+#define set_free(type, set) __set_##type##_free(set)
 
-#define set_indexof(type, set, elem) set_##type##_indexof(set, elem)
+#define set_indexof(type, set, elem) __set_##type##_indexof(set, elem)
 
 #define CMP_FN_T(name, type) _Bool (* name)(const type *, const type *)
 
 // clang-format off
 #define DEFINE_SET(type)                                                            \
                                                                                     \
-  SET(type) set_##type##_new() {                                                \
+  SET(type) __set_##type##_new() {                                                \
     SET(type) set;               \
     set.data = (type *)malloc(sizeof(type ));                                      \
     set.capacity = 1;                                                              \
@@ -30,7 +30,7 @@
     return set;                                                                     \
   }                                                                                 \
                                                                                     \
-  SET(type) set_##type##_new_cmp(CMP_FN_T(cmp_fn, type)) {                                                \
+  SET(type) __set_##type##_new_cmp(CMP_FN_T(cmp_fn, type)) {                                                \
     SET(type) set;               \
     set.data = (type *)malloc(sizeof(type ));                                      \
     set.capacity = 1;                                                              \
@@ -39,7 +39,7 @@
     return set;                                                                     \
   }                                                                                 \
                                                                                     \
-  SET(type) set_##type##_new_with_size(size_t initial_size) {                   \
+  SET(type) __set_##type##_new_with_size(size_t initial_size) {                   \
     SET(type) set;               \
     set.data = (type *)malloc(sizeof(type ) * initial_size);                       \
     set.capacity = initial_size;                                                   \
@@ -48,7 +48,7 @@
     return set;                                                                     \
   }                                                                                 \
                                                                                     \
-  static void set_##type##_resize(SET(type) *set, size_t capacity) {             \
+  static void __set_##type##_resize(SET(type) *set, size_t capacity) {             \
     type *items = (type *)realloc(set->data, sizeof(type ) * capacity);             \
     if (items) {                                                                    \
       set->data = items;                                                            \
@@ -57,23 +57,23 @@
   }                                                                                 \
                                                                                     \
   /* Function to free the memory used by the set */                                 \
-  void set_##type##_free(SET(type) *set) {                                       \
+  void __set_##type##_free(SET(type) *set) {                                       \
     free(set->data);                                                                \
     free(set);                                                                      \
   }                                                                                 \
                                                                                     \
   /* Function to add an item to the set */                                          \
-  _Bool set_##type##_insert(SET(type) *set, type item) {                         \
+  _Bool __set_##type##_insert(SET(type) *set, type item) {                         \
     if (set_indexof(type, set, item) != -1) return 0;                               \
     if (set->length == set->capacity) {                                             \
-      set_##type##_resize(set, set->capacity * 2);                                  \
+      __set_##type##_resize(set, set->capacity * 2);                                  \
     }                                                                               \
     set->data[set->length++] = item;                                                \
     return 1;                                                                       \
   }                                                                                 \
                                                                                     \
   /* Function to get an item from the settor at a specific index*/                  \
-  type set_##type##_get(const SET(type) *set, size_t index) {                    \
+  type __set_##type##_get(const SET(type) *set, size_t index) {                    \
     if (index >= set->length) {                                                     \
       fprintf(stderr, "Index out of bounds\n");                                     \
     }                                                                               \
@@ -81,9 +81,9 @@
   }                                                                                 \
                                                                                     \
   /* Function to get the current size of the settor*/                               \
-  size_t set_##type##_length(const SET(type) *set) { return set->length; }       \
+  size_t __set_##type##_length(const SET(type) *set) { return set->length; }       \
                                                                                     \
-  type set_##type##_remove(SET(type) *set, size_t index) {                       \
+  type __set_##type##_remove(SET(type) *set, size_t index) {                       \
     if (index >= set->length) {                                                     \
       fprintf(stderr, "Index out of bounds\n");                                     \
     }                                                                               \
@@ -108,7 +108,7 @@
     return popped_element;                                                          \
   }                                                                                 \
                                                                                     \
-  ssize_t set_##type##_indexof(SET(type) *set, type elem) {                      \
+  ssize_t __set_##type##_indexof(SET(type) *set, type elem) {                      \
     for (size_t i = 0; i < set->length; i++) {                                      \
       type elem2 = set_get(type, set, i);                                           \
       if (set->cmp_fn == NULL ? elem == elem2 : set->cmp_fn(&elem, &elem2)) {       \
@@ -124,26 +124,26 @@
     size_t length;                                                                  \
     size_t capacity;                                                                \
     CMP_FN_T(cmp_fn, type);                                                         \
-  } set_##type##_t;                                                                 \
+  } __set_##type##_t;                                                                 \
                                                                                     \
-  SET(type) set_##type##_new();                                                 \
+  SET(type) __set_##type##_new();                                                 \
                                                                                     \
-  SET(type) set_##type##_new_cmp(CMP_FN_T(cmp_fn, type));                       \
+  SET(type) __set_##type##_new_cmp(CMP_FN_T(cmp_fn, type));                       \
                                                                                     \
-  SET(type) set_##type##_new_with_size(size_t initial_size);                    \
+  SET(type) __set_##type##_new_with_size(size_t initial_size);                    \
                                                                                     \
   /* Function to free the memory used by the set */                                 \
-  void set_##type##_free(SET(type) * set);                                       \
+  void __set_##type##_free(SET(type) * set);                                       \
                                                                                     \
   /* Function to add an item to the set*/                                           \
-  _Bool set_##type##_insert(SET(type) * set, type item);                         \
+  _Bool __set_##type##_insert(SET(type) * set, type item);                         \
                                                                                     \
   /* Function to get an item from the settor at a specific index */                 \
-  type set_##type##_get(const SET(type) *set, size_t index);                     \
+  type __set_##type##_get(const SET(type) *set, size_t index);                     \
                                                                                     \
   /* Function to get the current size of the set */                                 \
-  size_t set_##type##_length(const SET(type) *set);                              \
+  size_t __set_##type##_length(const SET(type) *set);                              \
                                                                                     \
-  type set_##type##_remove(SET(type) *set, size_t index);                        \
+  type __set_##type##_remove(SET(type) *set, size_t index);                        \
                                                                                     \
-  ssize_t set_##type##_indexof(SET(type) *set, type elem);                       \
+  ssize_t __set_##type##_indexof(SET(type) *set, type elem);                       \
