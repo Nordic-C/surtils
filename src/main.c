@@ -30,6 +30,9 @@ bool str_cmp(const string_t *s1, const string_t *s2) {
 int main(void) {
   TEST(test_maps, {
     MAP(int, int) map = map_new(int, int);
+
+
+
     FOREACH_ENTRY(int, int, map, key, value, {
       printf("%zu: k: %d, v: %d\n", __iter_index__, key, value);
     });
@@ -37,6 +40,7 @@ int main(void) {
 
   TEST(test_stacked_vecs, {
     typedef VEC(int) vec_int_t;
+
     DEFINE_VEC_EXPORTS(vec_int_t);
     VEC(vec_int_t) vec = vec_new(vec_int_t);
     FOREACH(vec_int_t, vec, value,

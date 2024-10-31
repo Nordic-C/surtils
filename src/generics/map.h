@@ -1,10 +1,12 @@
 #pragma once
 
+#include "shared.h"
+
 #define MAP(k_type, v_type) __map_##k_type##_##v_type##_t
 
 #define map_new(k_type, v_type) __map_##k_type##_##v_type##_new()
 
-#define CMP_FN_T(name, type) _Bool (*name)(const type *, const type *)
+#define map_insert(map, key, value)
 
 #define DEFINE_MAP(k_type, v_type)                                             \
   MAP(k_type, v_type) __map_##k_type##_##v_type##_new() {                      \
@@ -26,3 +28,5 @@
   } __map_##k_type##_##v_type##_t;                                             \
                                                                                \
   MAP(k_type, v_type) __map_##k_type##_##v_type##_new();\
+\
+  _Bool __map_##k_type##_##v_type##_insert(MAP(k_type, v_type) *map, k_type key, v_type value);\

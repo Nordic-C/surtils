@@ -1,5 +1,7 @@
 #pragma once
 
+#include "shared.h"
+
 #define SET(type) __set_##type##_t
 
 #define set_new(type) __set_##type##_new()
@@ -15,8 +17,6 @@
 #define set_free(type, set) __set_##type##_free(set)
 
 #define set_indexof(type, set, elem) __set_##type##_indexof(set, elem)
-
-#define CMP_FN_T(name, type) _Bool (* name)(const type *, const type *)
 
 // clang-format off
 #define DEFINE_SET(type)                                                            \
